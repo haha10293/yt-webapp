@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 
+// 公開用の設定
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 export default function Home() {
   const [url, setUrl] = useState("");
   const [formats, setFormats] = useState<any[]>([]);
@@ -19,7 +22,7 @@ export default function Home() {
     if (formating || loading || taskId) return; // 既に処理中なら無視（二重送信防止）
     setFormating(true)
     try {
-      const res = await fetch("http://localhost:8000/formats", {
+      const res = await fetch(`${API_URL}/formats`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
@@ -50,7 +53,7 @@ export default function Home() {
     setProgress(0);
 
     // サーバ側 DownLoadRequestに合わせてキー名を統一
-    const res = await fetch("http://localhost:8000/download", {
+    const res = await fetch(`${API_URL}/download`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -75,7 +78,7 @@ export default function Home() {
     let interval: number;
     if (taskId) {
       interval = window.setInterval(async () => {
-        const res = await fetch(`http://localhost:8000/progress/${taskId}`);
+        const res = await fetch(`${API_URL}/progress/${taskId}`);
         // エラー対応
         if (!res.ok) {
           alert("Server busy or download failed");
@@ -94,7 +97,7 @@ export default function Home() {
           // ダウンロード完了後にファイル取得
           let fileRes;
           for (let i = 0; i < 3; i++) {
-            fileRes = await fetch(`http://localhost:8000/file/${taskId}`);
+            fileRes = await fetch(`${API_URL}/file/${taskId}`);
             if (fileRes.ok) break;
             await new Promise(r => setTimeout(r, 500));
           }
