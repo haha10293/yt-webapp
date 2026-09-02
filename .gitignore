@@ -1,0 +1,14 @@
+# Next.js
+nextjs/node_modules/
+nextjs/.next/
+
+# Python
+downloader/__pycache__/
+*.pyc
+
+# Downloaded videos
+downloads/
+
+# Environment variables
+.env
+.env.local

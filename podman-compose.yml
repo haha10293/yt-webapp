@@ -1,0 +1,17 @@
+version: "3"
+
+
+services:
+  downloader:
+    build: ./downloader
+    volumes:
+      - ./downloads:/downloads
+    ports:
+      - "8000:8000"
+
+  nextjs:
+    build: ./nextjs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - downloader
