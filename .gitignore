@@ -6,8 +6,6 @@ nextjs/.next/
 downloader/__pycache__/
 *.pyc
 
-# Downloaded videos
-downloads/
 
 # Environment variables
 .env
